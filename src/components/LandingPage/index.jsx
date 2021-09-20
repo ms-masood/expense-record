@@ -1,95 +1,63 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import MonthTotal from '../common/monthTotal';
+import { fetchRecords } from '../../apis/records';
 import "./styles.css";
 
 const LandingPage = (props) => {
+  const records = useSelector((state) => state.records);
+  const pageData = records?.records;
+
+  useEffect(() => {
+    if(!pageData?.length) {
+      fetchRecords();
+    }
+  });
+
   return (
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+    <div className="container">
+      <div className="row">
+        <div className="col-md-3"></div>
+        <div className="col-md-6">
           <form>
-            <div class="form-row">
-              <div class="form-fields">
-                <label>Sept</label>
-              </div>
-              <div class="form-fields">
-                <input type="text" class="form-fieldss" />
-              </div>
-            </div>
-            <div class="form-row">
+            <MonthTotal />
+            <div className="form-row">
               <Link to={`/add-record`} className="btn btn-add" onClick={()=>{}} >
                 {"Add +"}
               </Link>
             </div>
-            <div class="table-responsive">
+            <div className="table-responsive">
               <table>
-                <tr>
-                  <th>Date</th>
-                  <th>Desc</th>
-                  <th>Cat</th>
-                  <th>Amount $</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5</td>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Desc</th>
+                    <th>Cat</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    pageData?.map((row, index) => {
+                      return ( !!row.id &&
+                        <tr key={index}>
+                          <td>{row.id}</td>
+                          <td>{row.desc}</td>
+                          <td>{row.category}</td>
+                          <td>{row.date}</td>
+                          <td>${row.amount}</td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
               </table>
             </div>
           </form>
         </div>
-        <div class="col-md-3"></div>
+        <div className="col-md-3"></div>
       </div>
     </div>
   );
