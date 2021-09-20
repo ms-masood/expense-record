@@ -2,18 +2,20 @@ import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-// import ReduxToastr from "react-redux-toastr";
+import ReduxToastr from "react-redux-toastr";
+import store from "./store/appStore";
 import "./assets/css/bootstrap.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 render(
+  <Provider store={store}>
     <div>
       <Router>
         <App />
       </Router>
-      {/* <ReduxToastr
+      <ReduxToastr
         timeOut={4000}
         newestOnTop={false}
         preventDuplicates={false}
@@ -22,8 +24,9 @@ render(
         transitionOut="fadeOut"
         progressBar
         closeOnToastrClick
-      /> */}
-    </div>,
+      />
+    </div>
+  </Provider>,
   document.getElementById("root")
 );
 
