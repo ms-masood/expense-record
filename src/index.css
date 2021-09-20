@@ -57,7 +57,7 @@ table tr td,table tr th {
   color: #fff;
 }
 
-form {
+.form-cont {
   border: 1px solid #fff;
   padding: 20px;
 }
