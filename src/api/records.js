@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store/appStore";
+import { toastr } from 'react-redux-toastr';
 
 import { 
   fetchRecordsPass,
@@ -24,14 +25,20 @@ export const fetchRecords = (data) => {
 export const addRecord = (data) => {
   return axios({
     method: "post",
-    url: "https://my-json-server.typicode.com/ms-masood/demo-server/",
+    url: "http://localhost:8000/posts",
     data: data,
     headers: {
       "X-CSRF-TOKEN": document
     },
   })
     .then((res) => {
-      store.dispatch(addRecordPass(res));
+      if(!!res.data) {
+        store.dispatch(addRecordPass(res.data));
+        toastr.success('Success', 'Expense has been recorded!');
+      }
     })
-    .catch((error) => {console.error(error)});
+    .catch((error) => {
+      toastr.error('Failure', 'There is some problem!');
+      console.error(error)
+    });
 };

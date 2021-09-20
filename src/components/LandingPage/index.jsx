@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MonthTotal from '../common/monthTotal';
-import { fetchRecords } from '../../apis/records';
 import "./styles.css";
 
 const LandingPage = (props) => {
   const records = useSelector((state) => state.records);
   const pageData = records?.records;
 
-  useEffect(() => {
-    if(!pageData?.length) {
-      fetchRecords();
-    }
-  });
 
   return (
     <div className="container">
@@ -31,10 +25,9 @@ const LandingPage = (props) => {
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Date</th>
                     <th>Desc</th>
                     <th>Cat</th>
-                    <th>Date</th>
                     <th>Amount</th>
                   </tr>
                 </thead>
@@ -43,10 +36,9 @@ const LandingPage = (props) => {
                     pageData?.map((row, index) => {
                       return ( !!row.id &&
                         <tr key={index}>
-                          <td>{row.id}</td>
+                          <td>{row.date}</td>
                           <td>{row.desc}</td>
                           <td>{row.category}</td>
-                          <td>{row.date}</td>
                           <td>${row.amount}</td>
                         </tr>
                       )

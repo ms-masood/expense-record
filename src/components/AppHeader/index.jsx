@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchRecords } from '../../api/records';
 
 import "./styles.css";
 
 const AppHeader = (props) => {
+  const records = useSelector((state) => state.records);
+  const pageData = records?.records;
+
+  useEffect(() => {
+    if(!pageData?.length) {
+      fetchRecords();
+    }
+  });
 
   const menuItems = [
     {name: 'Home', route: '/', img: ''},
